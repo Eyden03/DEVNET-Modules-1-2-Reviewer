@@ -11,7 +11,44 @@
 @media(min-width:721px){.controls-inner{grid-template-columns:1fr 1fr repeat(3,auto)}}
 @media(max-width:720px){.match-row{grid-template-columns:1fr}}
 </style>
+
+
+<script>
+  (function() {
+    // 1. Change 'your_secret_password' to whatever password you want to give your users
+    const PASSWORD = 'eyden'; 
+    
+    // 2. Check if they already entered it correctly before
+    if (sessionStorage.getItem('site_auth') !== PASSWORD) {
+      let authenticated = false;
+      
+      while (!authenticated) {
+        const userInput = prompt('This deployment is protected. Please enter the password:');
+        
+        // If they click cancel, don't let them see the site
+        if (userInput === null) {
+          document.documentElement.innerHTML = '<h1>Access Denied</h1>';
+          window.stop();
+          break;
+        }
+        
+        if (userInput === PASSWORD) {
+          // Remember their session so they don't get prompted on every single page refresh
+          sessionStorage.setItem('site_auth', PASSWORD);
+          authenticated = true;
+        } else {
+          alert('Incorrect password. Please try again.');
+        }
+      }
+    }
+  })();
+</script>
+
+
 </head>
+
+
+
 <body>
 <div class="app">
 <header class="hero"><div class="hero-inner"><p class="eyebrow">Interactive Study Tool</p><h1>DEVNET Modules 1–4 Reviewer</h1><p>Choose a section, answer each item, and review the source explanation immediately.</p></div></header>
